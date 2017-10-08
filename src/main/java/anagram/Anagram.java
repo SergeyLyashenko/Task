@@ -6,11 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 public class Anagram {
-    private String charToChange;
 
 
 
-    public boolean isAnagram(String firstString, String secondString) {
+    //runtime evaluation O(n)
+    //memory evaluation O(n)
+    public AnagramResult isAnagram(String firstString, String secondString) {
+
+        if (firstString.length() != secondString.length()) {
+            throw new IllegalArgumentException("Strings must have the same length");
+        }
+
         HashMap<Character, Integer> charBalance = new HashMap<>();
         Character charFromFirstString;
         Character charFromSecondString;
@@ -41,14 +47,13 @@ public class Anagram {
             }
         }
 
-        if (result.isEmpty()) {
-            return true;
-        }
-        charToChange = result.toString();
-        return false;
-    }
+        AnagramResult anagramResult = new AnagramResult();
 
-    public String getCharToChange() {
-        return charToChange;
+        if (result.isEmpty()) {
+            anagramResult.setAnagram(true);
+            return anagramResult;
+        }
+        anagramResult.setCharToChange(result);
+        return anagramResult;
     }
 }

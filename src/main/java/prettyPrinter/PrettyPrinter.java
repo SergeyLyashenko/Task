@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrettyPrinter {
-    private int tableWidth;
 
     public void prettyPrintTable(String path) throws IOException {
         List<String[]> table = loadFromFile(path);
-        alignTheTableToTheWidth(table);
-        printTable(table);
+        List<Integer> columnsWidth = determineTheWidthOfColumns(table);
+        printTable(table, columnsWidth);
 
     }
 
@@ -35,29 +34,26 @@ public class PrettyPrinter {
         return cells;
     }
 
-    private void alignTheTableToTheWidth(List<String[]> table) {
-        tableWidth = 0;
+    private List<Integer> determineTheWidthOfColumns(List<String[]> table) {
+        List<Integer> columnsWidth = new ArrayList<>();
         for (int i = 0; i < table.get(0).length; i++) {
-            int cellWidth = table.get(0)[i].length();
+            int columnWidth = table.get(0)[i].length();
             for (String[] separateCell : table) {
-                if (separateCell[i].length() > cellWidth) {
-                    cellWidth = separateCell[i].length();
+                if (separateCell[i].length() > columnWidth) {
+                    columnWidth = separateCell[i].length();
                 }
             }
-            tableWidth += cellWidth + 2;
-            for (String[] separateCell : table) {
-                if (separateCell[i].length() < cellWidth) {
-                    StringBuilder indent = new StringBuilder();
-                    for (int j = 0; j < cellWidth - separateCell[i].length(); j++) {
-                        indent.append(" ");
-                    }
-                    separateCell[i] += indent;
-                }
-            }
+            columnsWidth.add(columnWidth);
         }
+        return columnsWidth;
     }
 
-    private void printTable(List<String[]> table) {
+    private void printTable(List<String[]> table, List<Integer> columnsWidth) {
+        int tableWidth = 2*columnsWidth.size();
+        for (Integer integer : columnsWidth) {
+            tableWidth +=integer;
+        }
+
         //horizon border of the table
         StringBuilder border = new StringBuilder();
         for (int i = 0; i < tableWidth; i++) {
@@ -69,8 +65,12 @@ public class PrettyPrinter {
             if (i < 2) {
                 System.out.println(border);
             }
-            for (String s : table.get(i)) {
-                System.out.print("|" + s + " ");
+            for (int j = 0; j < table.get(i).length ; j++) {
+                StringBuilder indent = new StringBuilder(" ");
+                for (int k = 0; k < columnsWidth.get(j) - table.get(i)[j].length(); k++) {
+                    indent.append(" ");
+                }
+                System.out.print("|" + table.get(i)[j] + indent);
             }
             System.out.print("|");
             System.out.println();
