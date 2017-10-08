@@ -1,11 +1,13 @@
 package prettyPrinter;
 
+import java.io.IOException;
+
 public class PrettyPrinterApp {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IllegalArgumentException, IOException {
 
         if (args.length != 1) {
-            throw new Exception("Use: PrettyPrinterApp pathToFile");
+            throw new IllegalArgumentException("Use: PrettyPrinterApp pathToFile");
         }
 
         PrettyPrinter prettyPrinter = new PrettyPrinter();

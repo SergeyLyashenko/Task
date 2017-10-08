@@ -6,23 +6,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Anagram {
-
-
-
-    //runtime evaluation O(n)
-    //memory evaluation O(n)
-    public AnagramResult isAnagram(String firstString, String secondString) {
-
-        if (firstString.length() != secondString.length()) {
+    // runtime evaluation O(n)
+    // memory evaluation O(n)
+    public AnagramResult isAnagram(String first, String second) {
+        if (first.length() != second.length()) {
             throw new IllegalArgumentException("Strings must have the same length");
         }
 
         HashMap<Character, Integer> charBalance = new HashMap<>();
         Character charFromFirstString;
         Character charFromSecondString;
-        for (int i = 0; i < firstString.length(); i++) {
-            charFromFirstString = firstString.charAt(i);
-            charFromSecondString = secondString.charAt(i);
+        for (int i = 0; i < first.length(); i++) {
+            charFromFirstString = first.charAt(i);
+            charFromSecondString = second.charAt(i);
 
             if (charBalance.containsKey(charFromFirstString)) {
                 charBalance.put(charFromFirstString, charBalance.get(charFromFirstString) + 1);
@@ -38,7 +34,6 @@ public class Anagram {
         }
 
         List<Character> result = new ArrayList<>();
-
         for (Map.Entry<Character, Integer> entry : charBalance.entrySet()) {
             if (entry.getValue() > 0){
                 for (int i = 0; i < entry.getValue(); i++) {
@@ -48,7 +43,6 @@ public class Anagram {
         }
 
         AnagramResult anagramResult = new AnagramResult();
-
         if (result.isEmpty()) {
             anagramResult.setAnagram(true);
             return anagramResult;

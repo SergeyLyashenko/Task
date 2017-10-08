@@ -16,7 +16,7 @@ public class PrettyPrinter {
 
     }
 
-    //separate all file by cells
+    // separate all file by cells
     private List<String[]> loadFromFile(String path) throws IOException {
         File file = new File(path);
         if (!file.exists()) {
@@ -39,9 +39,7 @@ public class PrettyPrinter {
         for (int i = 0; i < table.get(0).length; i++) {
             int columnWidth = table.get(0)[i].length();
             for (String[] separateCell : table) {
-                if (separateCell[i].length() > columnWidth) {
-                    columnWidth = separateCell[i].length();
-                }
+                columnWidth = Math.max(columnWidth, separateCell[i].length());
             }
             columnsWidth.add(columnWidth);
         }
@@ -49,23 +47,23 @@ public class PrettyPrinter {
     }
 
     private void printTable(List<String[]> table, List<Integer> columnsWidth) {
-        int tableWidth = 2*columnsWidth.size();
+        int tableWidth = 2 * columnsWidth.size();
         for (Integer integer : columnsWidth) {
-            tableWidth +=integer;
+            tableWidth += integer;
         }
 
-        //horizon border of the table
+        // horizon border of the table
         StringBuilder border = new StringBuilder();
         for (int i = 0; i < tableWidth; i++) {
             border.append("-");
         }
 
-        //pretty print
+        // pretty print
         for (int i = 0; i < table.size(); i++) {
             if (i < 2) {
                 System.out.println(border);
             }
-            for (int j = 0; j < table.get(i).length ; j++) {
+            for (int j = 0; j < table.get(i).length; j++) {
                 StringBuilder indent = new StringBuilder(" ");
                 for (int k = 0; k < columnsWidth.get(j) - table.get(i)[j].length(); k++) {
                     indent.append(" ");
