@@ -1,18 +1,16 @@
+package anagram;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Anagram {
-    private String firstString;
-    private String secondString;
+    private String charToChange;
 
-    public Anagram(String firstString, String secondString) {
-        this.firstString = firstString;
-        this.secondString = secondString;
-    }
 
-    protected String isAnagram() {
+
+    public boolean isAnagram(String firstString, String secondString) {
         HashMap<Character, Integer> charBalance = new HashMap<>();
         Character charFromFirstString;
         Character charFromSecondString;
@@ -44,9 +42,13 @@ public class Anagram {
         }
 
         if (result.isEmpty()) {
-            return "Strings are anagrams";
+            return true;
         }
+        charToChange = result.toString();
+        return false;
+    }
 
-        return result.toString();
+    public String getCharToChange() {
+        return charToChange;
     }
 }
