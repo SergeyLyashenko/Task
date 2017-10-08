@@ -4,45 +4,38 @@ import java.util.List;
 import java.util.Map;
 
 public class Anagram {
+    private String firstString;
+    private String secondString;
 
-    public static void main(String[] args) throws Exception {
-
-        if (args.length != 2) {
-            throw new Exception("Use: anagram firstString secondString");
-        }
-
-        if (args[0].length() != args[1].length()) {
-            throw new IllegalArgumentException();
-        }
-
-        System.out.println(isAnagram(args[0],args[1]));
-
+    public Anagram(String firstString, String secondString) {
+        this.firstString = firstString;
+        this.secondString = secondString;
     }
 
-    private static String isAnagram(String firstString, String secondString) {
-        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-        Character characterFromFirstString;
-        Character characterFromSecondString;
+    protected String isAnagram() {
+        HashMap<Character, Integer> charBalance = new HashMap<>();
+        Character charFromFirstString;
+        Character charFromSecondString;
         for (int i = 0; i < firstString.length(); i++) {
-            characterFromFirstString = firstString.charAt(i);
-            characterFromSecondString = secondString.charAt(i);
+            charFromFirstString = firstString.charAt(i);
+            charFromSecondString = secondString.charAt(i);
 
-            if (map.containsKey(characterFromFirstString)) {
-                map.put(characterFromFirstString, map.get(characterFromFirstString) + 1);
+            if (charBalance.containsKey(charFromFirstString)) {
+                charBalance.put(charFromFirstString, charBalance.get(charFromFirstString) + 1);
             } else {
-                map.put(characterFromFirstString, 1);
+                charBalance.put(charFromFirstString, 1);
             }
 
-            if (map.containsKey(characterFromSecondString)) {
-                map.put(characterFromSecondString, map.get(characterFromSecondString) - 1);
+            if (charBalance.containsKey(charFromSecondString)) {
+                charBalance.put(charFromSecondString, charBalance.get(charFromSecondString) - 1);
             } else {
-                map.put(characterFromSecondString, -1);
+                charBalance.put(charFromSecondString, -1);
             }
         }
 
-        List<Character> result = new ArrayList<Character>();
+        List<Character> result = new ArrayList<>();
 
-        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+        for (Map.Entry<Character, Integer> entry : charBalance.entrySet()) {
             if (entry.getValue() > 0){
                 for (int i = 0; i < entry.getValue(); i++) {
                     result.add(entry.getKey());
@@ -56,5 +49,4 @@ public class Anagram {
 
         return result.toString();
     }
-
 }
